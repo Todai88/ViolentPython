@@ -1,7 +1,7 @@
-import socket
+import socket, sys
 
 def retBanner(ip, port):
-
+    print "Testing " + str(ip) + " : " +  str(port)
     try:
         socket.setdefaulttimeout(2)
         s = socket.socket()
@@ -14,17 +14,17 @@ def retBanner(ip, port):
         return
 
 def checkVulns(banner):
-
-    if "FreeFloat Ftp Server (Version 1.00)" in banner:
-        print "[+] FreeFloat FTP Server is vulnerable."
-    elif "3Com 3CDaemon FTP Server Version 2.0" in banner:
-        print "[+] 3CDaemon FTP Server is vulnerable."
-    elif "Ability Server 2.34" in banner:
-        print "[+] Ability FTP Server is vulnerable."
-    elif "Sami FTP Server 2.0.2" in banner:
-        print "[+] Sami FTP Server is vulnerable."
+    if len(sys.argv) == 2:
+        filename == sys.argv[1]
+        print "[+] Reading vulnerabilties from:" + filename
+        f = open(filename, "r")
     else:
-        print "FTP Server is not vulnerable."
+        print "Defaulting to vuln_baners.txt"
+        f = open("vuln_banners.txt", "r")
+    print "Opening file " + str(f)
+    for line in f.readlines():
+        if line.strip("\n") in banner:
+            print "[+] Server is vulnerable: " + banner.strip("\n")
 
     return
 
