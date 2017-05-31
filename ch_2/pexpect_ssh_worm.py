@@ -4,8 +4,8 @@ PROMPT = ['#', '>>>', '>', '\$']
 
 def send_command(child, cmd):
     child.sendline(cmd)
-    child.expect(PROMPT)
-    print(child.before)
+    child.expect(PROMPT) 
+    print(child.before + " " + child.buffer)
 
 def connect(user, host, password):
     ssh_newkey = 'Are you sure you want to continue connecting'
@@ -37,9 +37,9 @@ def connect(user, host, password):
 def main():
     host = 'localhost'
     user = 'root'
-    password = 'toor'
+    password = 'hexa3dec1'
     child = connect(user, host, password)
-    send_command(child, 'cat /etc/shadow | grep root')
+    send_command(child, 'grep root /etc/shadow')
 
 if __name__ == '__main__':
     main()
