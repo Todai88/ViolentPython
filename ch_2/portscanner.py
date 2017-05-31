@@ -2,6 +2,11 @@ import optparse
 from socket import *
 
 def conn_scan(host, port):
+    """
+    :param host: 
+    :param port: 
+    :return: 
+    """
     try:
         conn_socket = socket(AF_INET, SOCK_STREAM)
         conn_socket.connect((host, port))
