@@ -21,7 +21,7 @@ class conficker():
             if nscan[host].has_tcp(445):
                 port_state = nscan[host]['tcp'][445]['state']
                 if port_state == 'open':
-                    print '[+] Found Target Host: ' + host
+                    print ('[+] Found Target Host: ' + host)
                     vulnerable_hosts.append(host)
 
         return vulnerable_hosts

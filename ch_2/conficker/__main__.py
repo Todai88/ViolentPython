@@ -38,7 +38,7 @@ if __name__ == '__main__':
     arguments = parser.parse_args()
 
     if not os.path.isfile(arguments.password_file):
-        print 'File not found.'
+        print('File not found.')
         parser.print_usage()
         raise SystemExit
 
