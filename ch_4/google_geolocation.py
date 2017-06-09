@@ -59,8 +59,9 @@ def main():
     with open(arguments.pcap_file) as file:
         pcap = dpkt.pcap.Reader(file)
         kmlheader = '<?xml version="1.0" encoding="UTF-8"?>'+\
-            '\n<kml xmlns="http://www.opengis.net/kml/2.2">\n'
-        kmlfooter = '</kml>\n'
+            '\n<kml xmlns="http://www.opengis.net/kml/2.2">\n'+\
+            '\n<Document>\n'
+        kmlfooter = '\n</Document>\n</kml>\n'
         kmldoc = kmlheader + plotIPs(pcap) + kmlfooter
         print(kmldoc)
 
